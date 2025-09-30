@@ -1,0 +1,26 @@
+version: '3.8'
+
+services:
+  apache-web:
+    image: httpd:2.4-alpine
+    container_name: shaka-website-apache
+    ports:
+      - "38080:80"
+    volumes:
+      # Monta la cartella website sulla root di Apache
+      - ./app/website:/usr/local/apache2/htdocs
+      # Monta le altre cartelle come sottocartelle
+      - ./app/risorse:/usr/local/apache2/htdocs/risorse
+      - ./app/template:/usr/local/apache2/htdocs/template
+      # Configurazione Apache personalizzata
+      - ./apache-config/httpd.conf:/usr/local/apache2/conf/httpd.conf
+    restart: unless-stopped
+    environment:
+      - APACHE_RUN_USER=www-data
+      - APACHE_RUN_GROUP=www-data
+    networks:
+      - shaka-website-network
+
+networks:
+  shaka-website-network:
+    driver: bridge
