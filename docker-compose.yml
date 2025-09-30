@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   apache-web:
     image: httpd:2.4-alpine
@@ -12,8 +10,6 @@ services:
       # Monta le altre cartelle come sottocartelle
       - ./app/risorse:/usr/local/apache2/htdocs/risorse
       - ./app/template:/usr/local/apache2/htdocs/template
-      # Configurazione Apache personalizzata
-      - ./apache-config/httpd.conf:/usr/local/apache2/conf/httpd.conf
     restart: unless-stopped
     environment:
       - APACHE_RUN_USER=www-data
